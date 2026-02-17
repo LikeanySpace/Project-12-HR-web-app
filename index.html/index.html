@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Enterprise HR System</title>
+    <link rel="stylesheet" href="styles.css">
+
+  </head>
+  <body>
+    <header class="header">
+      <h1>SMART ENTERPRISE HR PLATFORM</h1>
+      <p>HR • Payroll • Attendance • Performance</p>
+    </header>
+
+    <nav class="sidebar">
+  <ul>
+    <li data-section="hr">HR System</li>
+    <li data-section="payroll">Payroll System</li>
+    <li data-section="attendance">Attendance System</li>
+    <li data-section="performance">Performance System</li>
+  </ul>
+</nav>
+
+
+    <!-- HR SYSTEM -->
+<section id="hr" class="section active">
+  <h2>HR Management</h2>
+  <input type="text" id="empName" placeholder="Employee Name" />
+  <button id="addEmployeeBtn">Add Employee</button>
+  <ul id="employeeList"></ul>
+</section>
+
+<!-- PAYROLL SYSTEM -->
+<section id="payroll" class="section">
+  <h2>Payroll System</h2>
+  <p>Monthly Salary: ₱ <span id="salary">0</span></p>
+  <button id="payrollBtn">Generate Payroll</button>
+</section>
+
+<!-- ATTENDANCE SYSTEM -->
+<section id="attendance" class="section">
+  <h2>Attendance System</h2>
+  <button id="attendanceBtn">Log Attendance</button>
+  <p>Total Days Present: <span id="daysPresent">0</span></p>
+</section>
+
+<!-- PERFORMANCE SYSTEM -->
+<section id="performance" class="section">
+  <h2>Performance Evaluation</h2>
+  <select id="rating">
+    <option value="1">Needs Improvement</option>
+    <option value="2">Satisfactory</option>
+    <option value="3">Excellent</option>
+  </select>
+  <button id="performanceBtn">Save Rating</button>
+  <p>Last Rating: <span id="performanceResult">None</span></p>
+</section>
+
+
+    <script type="module" src="src/script.js"></script>
+
+  </body>
+</html>
