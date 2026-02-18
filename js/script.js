@@ -1,67 +1,81 @@
-import { connectIntegration, fetchRemoteEmployees } from './src/api.js';
+import { connectIntegration, fetchRemoteEmployees } from './api.js';
 
 // App State
 let employees = [];
 let attendanceDays = 0;
-let baseSalary = 15000;
+const baseSalary = 15000;
 
-// Navigation
-document.querySelectorAll(".sidebar li").forEach(item => {
-  item.addEventListener("click", () => {
-    showSection(item.dataset.section);
-  });
+// --- Navigation ---
+const sidebarItems = document.querySelectorAll(".sidebar li");
+const sections = document.querySelectorAll(".section");
+
+sidebarItems.forEach(item => {
+  item.addEventListener("click", () => showSection(item.dataset.section));
 });
 
 function showSection(id) {
-  document.querySelectorAll(".section").forEach(sec => {
-    sec.classList.remove("active");
-  });
+  sections.forEach(sec => sec.classList.remove("active"));
   document.getElementById(id).classList.add("active");
+
+  // Sidebar highlight
+  sidebarItems.forEach(li => {
+    li.classList.toggle("active", li.dataset.section === id);
+  });
 }
 
-// HR SYSTEM
-document.getElementById("addEmployeeBtn").addEventListener("click", () => {
-  const name = document.getElementById("empName").value.trim();
-  if (!name) return;
+// --- HR SYSTEM ---
+const addEmployeeBtn = document.getElementById("addEmployeeBtn");
+const empNameInput = document.getElementById("empName");
+const employeeList = document.getElementById("employeeList");
+
+addEmployeeBtn.addEventListener("click", () => {
+  const name = empNameInput.value.trim();
+  if (!name) return alert("Please enter an employee name.");
+
+  if (employees.some(emp => emp.name.toLowerCase() === name.toLowerCase())) {
+    return alert("Employee already exists!");
+  }
 
   employees.push({ name });
   renderEmployees();
-  document.getElementById("empName").value = "";
+  empNameInput.value = "";
 });
 
 function renderEmployees() {
-  const list = document.getElementById("employeeList");
-  list.innerHTML = "";
-
+  employeeList.innerHTML = "";
   employees.forEach(emp => {
     const li = document.createElement("li");
     li.textContent = emp.name;
-    list.appendChild(li);
+    employeeList.appendChild(li);
   });
 }
 
-// PAYROLL SYSTEM (Integrated with Attendance)
-document.getElementById("payrollBtn").addEventListener("click", () => {
+// --- PAYROLL SYSTEM ---
+const payrollBtn = document.getElementById("payrollBtn");
+const salarySpan = document.getElementById("salary");
+
+payrollBtn.addEventListener("click", () => {
+  if (employees.length === 0) return alert("Add employees first!");
   const salary = baseSalary + attendanceDays * 500;
-  document.getElementById("salary").textContent = salary;
+  salarySpan.textContent = salary;
 });
 
-// ATTENDANCE SYSTEM
-document.getElementById("attendanceBtn").addEventListener("click", () => {
+// --- ATTENDANCE SYSTEM ---
+const attendanceBtn = document.getElementById("attendanceBtn");
+const daysPresentSpan = document.getElementById("daysPresent");
+
+attendanceBtn.addEventListener("click", () => {
   attendanceDays++;
-  document.getElementById("daysPresent").textContent = attendanceDays;
+  daysPresentSpan.textContent = attendanceDays;
 });
 
-// PERFORMANCE SYSTEM
-document.getElementById("performanceBtn").addEventListener("click", () => {
-  const rating = document.getElementById("rating").value;
+// --- PERFORMANCE SYSTEM ---
+const performanceBtn = document.getElementById("performanceBtn");
+const ratingSelect = document.getElementById("rating");
+const performanceResult = document.getElementById("performanceResult");
 
-  const text =
-    rating === "1"
-      ? "Needs Improvement"
-      : rating === "2"
-      ? "Satisfactory"
-      : "Excellent";
-
-  document.getElementById("performanceResult").textContent = text;
+performanceBtn.addEventListener("click", () => {
+  const rating = ratingSelect.value;
+  const text = rating === "1" ? "Needs Improvement" : rating === "2" ? "Satisfactory" : "Excellent";
+  performanceResult.textContent = text;
 });
